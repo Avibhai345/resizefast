@@ -139,11 +139,11 @@ const unlockPdf = (inputBuffer, password) => {
 
 
 // Serve static files from the React app's build folder
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 // Handle React routing, return all requests to the React app
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 // Endpoint to upload and unlock the PDF
