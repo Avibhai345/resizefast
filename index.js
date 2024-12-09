@@ -114,6 +114,14 @@ const unlockPdf = (inputBuffer, password) => {
     // const command = `${qpdfPath} --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; // This is used locally
     const command = `qpdf --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; //This is used in production
 
+    exec('qpdf --version', (error, stdout, stderr) => {
+      if (error) {
+        console.error("Error executing qpdf --version:", stderr || error.message);
+      } else {
+        console.log("qpdf version:", stdout);
+      }
+    });
+
     exec(command, (error) => {
       if (error) {
         // Clean up temporary files if an error occurs
