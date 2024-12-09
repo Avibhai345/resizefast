@@ -134,6 +134,11 @@ const unlockPdf = (inputBuffer, password) => {
   });
 };
 
+
+app.get("/", (req, res) => {
+  res.send("Started!");
+})
+
 // Endpoint to upload and unlock the PDF
 app.post('/unlock-pdf', upload.single('file'), async (req, res) => {
   const file = req.file;
