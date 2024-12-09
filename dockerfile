@@ -1,23 +1,23 @@
-# Use the official Node.js image as the base image
+# Use an official Node.js image as the base image
 FROM node:16
 
-# Install dependencies for qpdf (Linux version)
+# Install qpdf
 RUN apt-get update && apt-get install -y qpdf
 
 # Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy your package.json and package-lock.json (if they exist)
-COPY package*.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json ./
 
-# Install your app dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the rest of your application files into the container
+# Copy the rest of the application to the working directory
 COPY . .
 
-# Expose the port your app runs on (this is the default port from your Express app)
+# Expose the app port
 EXPOSE 5000
 
-# Start the app
-CMD ["npm", "start"]
+# Start the application
+CMD ["node", "app.js"]
