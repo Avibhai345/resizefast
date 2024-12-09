@@ -154,7 +154,6 @@ app.post('/unlock-pdf', upload.single('file'), async (req, res) => {
   const file = req.file;
   const password = req.body.password;
 
-  console.log(password)
 
   if (!file || !password) {
     return res.status(400).send('File and password are required.');
