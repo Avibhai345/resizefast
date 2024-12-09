@@ -114,13 +114,6 @@ const unlockPdf = (inputBuffer, password) => {
     // const command = `${qpdfPath} --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; // This is used locally
     const command = `qpdf --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; //This is used in production
 
-    exec('qpdf --version', (error, stdout, stderr) => {
-      if (error) {
-        console.error("Error executing qpdf --version:", stderr || error.message);
-      } else {
-        console.log("qpdf version:", stdout);
-      }
-    });
 
     exec(command, (error) => {
       if (error) {
@@ -145,9 +138,13 @@ const unlockPdf = (inputBuffer, password) => {
 };
 
 
-app.get("/", (req, res) => {
-  res.send("Started!");
-})
+// Serve static files from the React app's build folder
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Handle React routing, return all requests to the React app
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 // Endpoint to upload and unlock the PDF
 app.post('/unlock-pdf', upload.single('file'), async (req, res) => {
