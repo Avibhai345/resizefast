@@ -111,7 +111,8 @@ const unlockPdf = (inputBuffer, password) => {
     fs.writeFileSync(tempInputPath, inputBuffer);
 
     const qpdfPath = '"C:\\Program Files\\qpdf 11.9.1\\bin\\qpdf.exe"';  // Ensure this path is correct
-    const command = `${qpdfPath} --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`;
+    // const command = `${qpdfPath} --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; // This is used locally
+    const command = `qpdf --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; //This is used in production
 
     exec(command, (error) => {
       if (error) {
@@ -143,6 +144,8 @@ app.get("/", (req, res) => {
 app.post('/unlock-pdf', upload.single('file'), async (req, res) => {
   const file = req.file;
   const password = req.body.password;
+
+  console.log(password)
 
   if (!file || !password) {
     return res.status(400).send('File and password are required.');
