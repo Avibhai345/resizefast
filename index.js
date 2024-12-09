@@ -111,14 +111,15 @@ const unlockPdf = (inputBuffer, password) => {
     fs.writeFileSync(tempInputPath, inputBuffer);
 
     const qpdfPath = '"C:\\Program Files\\qpdf 11.9.1\\bin\\qpdf.exe"';  // Ensure this path is correct
-    // const command = `${qpdfPath} --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; // This is used locally
-    const command = `qpdf --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; //This is used in production
+    const command = `${qpdfPath} --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; // This is used locally
+    // const command = `qpdf --decrypt --password=${password} "${tempInputPath}" "${tempOutputPath}"`; //This is used in production
 
     exec(command, (error) => {
       if (error) {
         // Clean up temporary files if an error occurs
         if (fs.existsSync(tempInputPath)) fs.unlinkSync(tempInputPath);
         if (fs.existsSync(tempOutputPath)) fs.unlinkSync(tempOutputPath);
+        console.log(error.message)
         reject(error.message);
         return;
       }
